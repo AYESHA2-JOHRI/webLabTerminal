@@ -9,26 +9,26 @@ router.get("/", async function (req, res, next) {
   res.render("products/list", { title: "Products In DB", products });
 });
 
-router.get("/cart", function (req, res, next) {
+router.get("cart", function (req, res, next) {
   let cart = req.cookies.cart;
   if (!cart) cart = [];
   res.render("cart", { cart });
 });
 
-router.get("/add", checkSessionAuth, async function (req, res, next) {
-  res.render("/add");
+router.get("add", checkSessionAuth, async function (req, res, next) {
+  res.render("add");
 });
 // store data in db
-router.post("/add", async function (req, res, next) {
+router.post("add", async function (req, res, next) {
   let product = new Product(req.body);
   await product.save();
   res.redirect("/");
 });
-router.get("/delete/:id", async function (req, res, next) {
+router.get("delete/:id", async function (req, res, next) {
   let product = await Product.findByIdAndDelete(req.params.id);
   res.redirect("/");
 });
-router.get("/cart/:id", async function (req, res, next) {
+router.get("cart/:id", async function (req, res, next) {
   let product = await Product.findById(req.params.id);
   console.log("Add This Product in cart");
   let cart = [];
@@ -37,7 +37,7 @@ router.get("/cart/:id", async function (req, res, next) {
   res.cookie("cart", cart);
   res.redirect("/");
 });
-router.get("/cart/remove/:id", async function (req, res, next) {
+router.get("cart/remove/:id", async function (req, res, next) {
   let cart = [];
   if (req.cookies.cart) cart = req.cookies.cart;
   cart.splice(
@@ -45,13 +45,13 @@ router.get("/cart/remove/:id", async function (req, res, next) {
     1
   );
   res.cookie("cart", cart);
-  res.redirect("/cart");
+  res.redirect("cart");
 });
-router.get("/edit/:id", async function (req, res, next) {
+router.get("edit/:id", async function (req, res, next) {
   let product = await Product.findById(req.params.id);
-  res.render("/edit", { product });
+  res.render("edit", { product });
 });
-router.post("/edit/:id", async function (req, res, next) {
+router.post("edit/:id", async function (req, res, next) {
   let product = await Product.findById(req.params.id);
   product.name = req.body.name;
   product.price = req.body.price;
@@ -59,7 +59,7 @@ router.post("/edit/:id", async function (req, res, next) {
   res.redirect("/");
 });
 
-router.post("/rating", async function (req, res, next) {
+router.post("rating", async function (req, res, next) {
   let product = await Product.findById(req.body._id);
   product.rating = req.body.rate;
   await product.save();
@@ -68,3 +68,4 @@ router.post("/rating", async function (req, res, next) {
 
 
 module.exports = router;
+
