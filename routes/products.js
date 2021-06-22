@@ -24,7 +24,7 @@ router.post("/add", async function (req, res, next) {
   await product.save();
   res.redirect("/");
 });
-router.get("/products/delete/:id", async function (req, res, next) {
+router.get("/delete/:id", async function (req, res, next) {
   let product = await Product.findByIdAndDelete(req.params.id);
   res.redirect("/");
 });
