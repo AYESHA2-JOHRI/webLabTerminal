@@ -22,3 +22,6 @@ a {
 .heading {
   margin: 80px;
 }
+.checked {
+  color: orange;
+}
